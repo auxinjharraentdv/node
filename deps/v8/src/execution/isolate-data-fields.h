@@ -74,6 +74,9 @@ static constexpr int kFastCCallAlignmentPaddingCount = 1;
   V(RegexpExecVectorArgument, kSystemPointerSize, regexp_exec_vector_argument) \
   V(ContinuationPreservedEmbedderData, kSystemPointerSize,                     \
     continuation_preserved_embedder_data)                                      \
+  V(CurrentMicrotaskQueue, kSystemPointerSize, current_microtask_queue)        \
+  V(CurrentMicrotaskNativeContext, kSystemPointerSize,                         \
+    current_microtask_native_context)                                          \
   /* Full tables (arbitrary size, potentially slower access). */               \
   V(RootsTable, RootsTable::kEntriesCount* kSystemPointerSize, roots_table)    \
   V(ExternalReferenceTable, ExternalReferenceTable::kSizeInBytes,              \
@@ -109,9 +112,7 @@ static constexpr int kFastCCallAlignmentPaddingCount = 1;
   V(SharedTrustedPointerTable, kSystemPointerSize,                           \
     shared_trusted_pointer_table)                                            \
   V(TrustedPointerPublishingScope, kSystemPointerSize,                       \
-    trusted_pointer_publishing_scope)                                        \
-  V(CodePointerTableBaseAddress, kSystemPointerSize,                         \
-    code_pointer_table_base_address)
+    trusted_pointer_publishing_scope)
 #else
 #define ISOLATE_DATA_FIELDS_SANDBOX(V)
 #endif  // V8_ENABLE_SANDBOX
@@ -132,6 +133,8 @@ static constexpr int kFastCCallAlignmentPaddingCount = 1;
                                                                                \
   /* ThreadLocalTop fields. */                                                 \
   V(Context, context, thread_local_top, offsetof(ThreadLocalTop, context_))    \
+  V(LastEnteredContext, last_entered_context, thread_local_top,                \
+    offsetof(ThreadLocalTop, last_entered_context_))                           \
   V(Exception, exception, thread_local_top,                                    \
     offsetof(ThreadLocalTop, exception_))                                      \
   V(TopmostScriptHavingContext, topmost_script_having_context,                 \
